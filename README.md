@@ -10,6 +10,7 @@
 - Vor fi stocate și materiile studiate. Dacă o materie are 2 profesori diferiți se consideră ca două materii diferite.
 - Vor fi păstrate și notele studenților, inclusiv cele de la examene.
 - Ștergerea unui student provoacă ștergere notelor sale
+- Adițional puteți adăuga ce doriți
 
 #### Cereri
 Este necesar de avut și cererile urmatoare :
