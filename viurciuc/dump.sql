@@ -1,109 +1,106 @@
--- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: UTM
--- ------------------------------------------------------
--- Server version	5.7.21-0ubuntu0.17.10.1
+-- Хост: localhost
+-- Время создания: Апр 14 2018 г., 01:57
+-- Версия сервера: 5.7.21-0ubuntu0.17.10.1
+-- Версия PHP: 7.1.15-0ubuntu0.17.10.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `Courses`
+-- База данных: `UTM`
+--
+CREATE DATABASE IF NOT EXISTS `UTM` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `UTM`;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Courses`
 --
 
-DROP TABLE IF EXISTS `Courses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Courses` (
+CREATE TABLE IF NOT EXISTS `Courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
+  `name` varchar(255) NOT NULL,
   `teacher_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_courses_teacher_id` (`teacher_id`),
-  CONSTRAINT `fk_courses_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `Teachers` (`id`)
+  UNIQUE KEY `un_course` (`name`,`teacher_id`),
+  KEY `fk_courses_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Courses`
+-- Дамп данных таблицы `Courses`
 --
 
-LOCK TABLES `Courses` WRITE;
-/*!40000 ALTER TABLE `Courses` DISABLE KEYS */;
-INSERT INTO `Courses` VALUES (1,'Curs-1',1),(2,'Curs-2',2),(3,'Curs-3',3),(4,'Curs-4',4),(5,'Curs-5',5);
-/*!40000 ALTER TABLE `Courses` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `Courses` VALUES(1, 'Curs-1', 1);
+INSERT INTO `Courses` VALUES(2, 'Curs-2', 2);
+INSERT INTO `Courses` VALUES(3, 'Curs-3', 3);
+INSERT INTO `Courses` VALUES(4, 'Curs-4', 4);
+INSERT INTO `Courses` VALUES(5, 'Curs-5', 5);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Faculties`
+-- Структура таблицы `Faculties`
 --
 
-DROP TABLE IF EXISTS `Faculties`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Faculties` (
+CREATE TABLE IF NOT EXISTS `Faculties` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `abbreviation` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `abbreviation` varchar(10) NOT NULL,
   `info` text NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_faculties` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Faculties`
+-- Дамп данных таблицы `Faculties`
 --
 
-LOCK TABLES `Faculties` WRITE;
-/*!40000 ALTER TABLE `Faculties` DISABLE KEYS */;
-INSERT INTO `Faculties` VALUES (1,'Facultatea Electronică și Telecomunicații','FET','info...'),(2,'Facultatea Energetică și Inginerie Electrică','FEIE','info...'),(3,'Facultatea Calculatoare, Informatică şi Microelectronică','FCIM','info...');
-/*!40000 ALTER TABLE `Faculties` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `Faculties` VALUES(1, 'Facultatea Electronică și Telecomunicații', 'FET', 'info...');
+INSERT INTO `Faculties` VALUES(2, 'Facultatea Energetică și Inginerie Electrică', 'FEIE', 'info...');
+INSERT INTO `Faculties` VALUES(3, 'Facultatea Calculatoare, Informatică şi Microelectronică', 'FCIM', 'info...');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Groups`
+-- Структура таблицы `Groups`
 --
 
-DROP TABLE IF EXISTS `Groups`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Groups` (
+CREATE TABLE IF NOT EXISTS `Groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
+  `name` varchar(255) NOT NULL,
   `faculty_id` int(11) NOT NULL,
   `info` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_groups_faculty_id` (`faculty_id`),
-  CONSTRAINT `fk_groups_faculty_id` FOREIGN KEY (`faculty_id`) REFERENCES `Faculties` (`id`)
+  UNIQUE KEY `un_groups` (`name`),
+  KEY `fk_groups_faculty_id` (`faculty_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Groups`
+-- Дамп данных таблицы `Groups`
 --
 
-LOCK TABLES `Groups` WRITE;
-/*!40000 ALTER TABLE `Groups` DISABLE KEYS */;
-INSERT INTO `Groups` VALUES (1,'ET-16',1,'info...'),(2,'EIE-16',2,'info...'),(3,'TI-16',3,'info...');
-/*!40000 ALTER TABLE `Groups` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `Groups` VALUES(1, 'ET-16', 1, 'info...');
+INSERT INTO `Groups` VALUES(2, 'EIE-16', 2, 'info...');
+INSERT INTO `Groups` VALUES(3, 'TI-16', 3, 'info...');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Marks`
+-- Структура таблицы `Marks`
 --
 
-DROP TABLE IF EXISTS `Marks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Marks` (
+CREATE TABLE IF NOT EXISTS `Marks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
@@ -112,84 +109,119 @@ CREATE TABLE `Marks` (
   PRIMARY KEY (`id`),
   KEY `del_marks` (`mark`),
   KEY `fk_marks_student_id` (`student_id`),
-  KEY `fk_marks_course_id` (`course_id`),
-  CONSTRAINT `fk_marks_course_id` FOREIGN KEY (`course_id`) REFERENCES `Courses` (`id`),
-  CONSTRAINT `fk_marks_student_id` FOREIGN KEY (`student_id`) REFERENCES `Students` (`id`) ON DELETE CASCADE
+  KEY `fk_marks_course_id` (`course_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Marks`
+-- Дамп данных таблицы `Marks`
 --
 
-LOCK TABLES `Marks` WRITE;
-/*!40000 ALTER TABLE `Marks` DISABLE KEYS */;
-INSERT INTO `Marks` VALUES (1,1,1,'course',6),(2,2,1,'course',8),(3,3,1,'course',10),(4,4,1,'course',9),(5,5,1,'course',6),(6,6,2,'course',7),(7,7,2,'course',8),(8,8,2,'course',8),(9,9,2,'course',9),(10,10,2,'course',6),(11,1,1,'exam',7),(12,2,1,'exam',7),(13,4,3,'course',8),(14,3,3,'course',8),(15,4,3,'course',9),(16,4,3,'course',6),(17,6,3,'course',10),(18,6,3,'course',6);
-/*!40000 ALTER TABLE `Marks` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `Marks` VALUES(1, 1, 1, 'course', 6);
+INSERT INTO `Marks` VALUES(2, 2, 1, 'course', 8);
+INSERT INTO `Marks` VALUES(3, 3, 1, 'course', 10);
+INSERT INTO `Marks` VALUES(4, 4, 1, 'course', 9);
+INSERT INTO `Marks` VALUES(5, 5, 1, 'course', 6);
+INSERT INTO `Marks` VALUES(6, 6, 2, 'course', 7);
+INSERT INTO `Marks` VALUES(7, 7, 2, 'course', 8);
+INSERT INTO `Marks` VALUES(8, 8, 2, 'course', 8);
+INSERT INTO `Marks` VALUES(9, 9, 2, 'course', 9);
+INSERT INTO `Marks` VALUES(10, 10, 2, 'course', 6);
+INSERT INTO `Marks` VALUES(11, 1, 1, 'exam', 7);
+INSERT INTO `Marks` VALUES(12, 2, 1, 'exam', 7);
+INSERT INTO `Marks` VALUES(13, 4, 3, 'course', 8);
+INSERT INTO `Marks` VALUES(14, 3, 3, 'course', 8);
+INSERT INTO `Marks` VALUES(15, 4, 3, 'course', 9);
+INSERT INTO `Marks` VALUES(16, 4, 3, 'course', 6);
+INSERT INTO `Marks` VALUES(17, 6, 3, 'course', 10);
+INSERT INTO `Marks` VALUES(18, 6, 3, 'course', 6);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Students`
+-- Структура таблицы `Students`
 --
 
-DROP TABLE IF EXISTS `Students`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Students` (
+CREATE TABLE IF NOT EXISTS `Students` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
+  `name` varchar(255) NOT NULL,
   `info` text NOT NULL,
   `faculty_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `un_students` (`name`),
   KEY `fk_students_faculty_id` (`faculty_id`),
-  KEY `fk_students_group_id` (`group_id`),
-  CONSTRAINT `fk_students_faculty_id` FOREIGN KEY (`faculty_id`) REFERENCES `Faculties` (`id`),
-  CONSTRAINT `fk_students_group_id` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`id`)
+  KEY `fk_students_group_id` (`group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Students`
+-- Дамп данных таблицы `Students`
 --
 
-LOCK TABLES `Students` WRITE;
-/*!40000 ALTER TABLE `Students` DISABLE KEYS */;
-INSERT INTO `Students` VALUES (1,'Vladislav Iurciuc','horoshii',1,3),(2,'Student2','info',1,2),(3,'Student3','info',2,1),(4,'Student4','info',2,3),(5,'Student5','info',3,2),(6,'Student6','info',3,1),(7,'Student7','info',3,3),(8,'Student8','info',1,1),(9,'Student9','info',1,3),(10,'Student10','info',2,1),(11,'Student11','info',3,1);
-/*!40000 ALTER TABLE `Students` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `Students` VALUES(1, 'Vladislav Iurciuc', 'horoshii', 1, 3);
+INSERT INTO `Students` VALUES(2, 'Student2', 'info', 1, 2);
+INSERT INTO `Students` VALUES(3, 'Student3', 'info', 2, 1);
+INSERT INTO `Students` VALUES(4, 'Student4', 'info', 2, 3);
+INSERT INTO `Students` VALUES(5, 'Student5', 'info', 3, 2);
+INSERT INTO `Students` VALUES(6, 'Student6', 'info', 3, 1);
+INSERT INTO `Students` VALUES(7, 'Student7', 'info', 3, 3);
+INSERT INTO `Students` VALUES(8, 'Student8', 'info', 1, 1);
+INSERT INTO `Students` VALUES(9, 'Student9', 'info', 1, 3);
+INSERT INTO `Students` VALUES(10, 'Student10', 'info', 2, 1);
+INSERT INTO `Students` VALUES(11, 'Student11', 'info', 3, 1);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `Teachers`
+-- Структура таблицы `Teachers`
 --
 
-DROP TABLE IF EXISTS `Teachers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Teachers` (
+CREATE TABLE IF NOT EXISTS `Teachers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_students` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Teachers`
+-- Дамп данных таблицы `Teachers`
 --
 
-LOCK TABLES `Teachers` WRITE;
-/*!40000 ALTER TABLE `Teachers` DISABLE KEYS */;
-INSERT INTO `Teachers` VALUES (1,'Falico Nicolai'),(2,'Melnic Fedor'),(3,'Orlov Viktor'),(4,'Balmus Ion'),(5,'Fedorov Ion');
-/*!40000 ALTER TABLE `Teachers` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `Teachers` VALUES(4, 'Balmus Ion');
+INSERT INTO `Teachers` VALUES(1, 'Falico Nicolai');
+INSERT INTO `Teachers` VALUES(5, 'Fedorov Ion');
+INSERT INTO `Teachers` VALUES(2, 'Melnic Fedor');
+INSERT INTO `Teachers` VALUES(3, 'Orlov Viktor');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `Courses`
+--
+ALTER TABLE `Courses`
+  ADD CONSTRAINT `fk_courses_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `Teachers` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `Groups`
+--
+ALTER TABLE `Groups`
+  ADD CONSTRAINT `fk_groups_faculty_id` FOREIGN KEY (`faculty_id`) REFERENCES `Faculties` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `Marks`
+--
+ALTER TABLE `Marks`
+  ADD CONSTRAINT `fk_marks_course_id` FOREIGN KEY (`course_id`) REFERENCES `Courses` (`id`),
+  ADD CONSTRAINT `fk_marks_student_id` FOREIGN KEY (`student_id`) REFERENCES `Students` (`id`) ON DELETE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `Students`
+--
+ALTER TABLE `Students`
+  ADD CONSTRAINT `fk_students_faculty_id` FOREIGN KEY (`faculty_id`) REFERENCES `Faculties` (`id`),
+  ADD CONSTRAINT `fk_students_group_id` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-04-14  1:26:04
