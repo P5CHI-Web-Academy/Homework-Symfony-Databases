@@ -93,7 +93,7 @@ CREATE TABLE `marks` (
 
 LOCK TABLES `marks` WRITE;
 /*!40000 ALTER TABLE `marks` DISABLE KEYS */;
-INSERT INTO `marks` VALUES (1,1,8);
+INSERT INTO `marks` VALUES (1,1,8),(1,2,6),(1,3,9),(1,4,10),(1,5,4),(1,6,8),(1,7,9),(1,8,7),(1,9,10),(1,10,8);
 /*!40000 ALTER TABLE `marks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +109,7 @@ CREATE TABLE `students` (
   `student_fname` varchar(25) NOT NULL,
   `student_lname` varchar(25) NOT NULL,
   PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,'Griffin','Stue');
+INSERT INTO `students` VALUES (1,'Griffin','Stue'),(2,'Ivanov','Dmitrii'),(3,'Rusu','Petru'),(4,'Kadzima','Hideo'),(5,'Shenvcemcp','Ignat'),(6,'Svetova','Maria'),(7,'Nrgara','Bogdan'),(8,'Kalashnikov','Dmitrii'),(9,'Petrov','Vasilii'),(10,'Iurciuc','Vlad');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `subjects` (
   PRIMARY KEY (`subject_id`),
   KEY `teacher_id` (`teacher_id`),
   CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `subjects` (
 
 LOCK TABLES `subjects` WRITE;
 /*!40000 ALTER TABLE `subjects` DISABLE KEYS */;
-INSERT INTO `subjects` VALUES (1,'Math',1);
+INSERT INTO `subjects` VALUES (1,'Math',1),(2,'Graphs',5),(3,'Geometry',3),(4,'OOP',2),(5,'DB',4);
 /*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ CREATE TABLE `teachers` (
   `teacher_fname` varchar(25) NOT NULL,
   `teacher_lname` varchar(25) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +170,7 @@ CREATE TABLE `teachers` (
 
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
-INSERT INTO `teachers` VALUES (1,'Parker','Peter');
+INSERT INTO `teachers` VALUES (1,'Parker','Peter'),(2,'Makarov','Petru'),(3,'Svetov','Egor'),(4,'Prosvirnin','Pavel'),(5,'Durov ','Mihail');
 /*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -183,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-12  0:35:23
+-- Dump completed on 2018-04-14 23:17:26
