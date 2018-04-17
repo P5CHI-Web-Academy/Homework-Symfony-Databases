@@ -28,7 +28,35 @@ ORDER BY average DESC LIMIT 10;
 ```
 - Top studenți per materie
 ```sql
-
+SELECT
+  c.name,
+  s.first_name,
+  s.last_name,
+  tm.max_average
+FROM (SELECT
+    m.stundent_id,
+    m.course_id,
+    AVG(m.value) AS average
+  FROM mark m
+  GROUP BY m.stundent_id,
+           m.course_id) AS t
+  INNER JOIN (SELECT
+      sm.course_id,
+      MAX(sm.average) AS max_average
+    FROM (SELECT
+        m.course_id,
+        AVG(m.value) AS average
+      FROM mark m
+      GROUP BY m.stundent_id,
+               m.course_id) AS sm
+    GROUP BY sm.course_id) AS tm
+    ON t.course_id = tm.course_id
+     AND t.average = tm.max_average
+  INNER JOIN stundent s
+    ON t.stundent_id = s.id
+  INNER JOIN course c
+    ON t.course_id = c.id
+;
 ```
 - Afișarea listei de profesori care predau unui anumit student
 ```sql
