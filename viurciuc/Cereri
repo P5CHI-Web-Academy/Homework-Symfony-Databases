@@ -1,12 +1,16 @@
 *Inserarea unui student
 INSERT INTO Students(`id`, `name`, `info`, `faculty_id`, `group_id`) 
-VALUES (1, 'Student 1', 'info', 1, 2);
+VALUES (12, 'Student 13', 'info', 1, 2);
 
 *Afișarea detaliilor despre un student
-SELECT Students.id AS id, Students.name AS name, Students.info, Groups.name AS group_name, 						Faculties.abbreviation AS faculty 
-FROM Students 
+SELECT Students.id AS id, Students.name AS name, Students.info, Groups.name AS group_name, Faculties.abbreviation AS faculty,
+Courses.name as course_name 
+FROM Students_courses
+LEFT JOIN Courses ON Students_courses.course_id = Courses.id
+LEFT JOIN Students ON Students_courses.student_id = Students.id
 LEFT JOIN Groups ON Students.group_id = Groups.id 
-LEFT JOIN Faculties ON Students.faculty_id = Faculties.id WHERE Students.id = 1;
+LEFT JOIN Faculties ON Students.faculty_id = Faculties.id 
+WHERE Students.id = 1;
 
 *Modificarea unui student
 UPDATE Students 
@@ -21,22 +25,22 @@ ORDER BY avg_mark DESC LIMIT 10;
 
 *Top studenți per materie
 SELECT Courses.name AS course_name, Students.name AS student_name, avg_mark AS mark 
-	FROM (SELECT student_id, avg_mark, 
-		@currcount := IF(@courses_id = course_id, @currcount + 1, 1) AS rank,
-    	@courses_id := course_id AS course_id 
+  FROM (SELECT student_id, avg_mark, 
+    @currcount := IF(@courses_id = course_id, @currcount + 1, 1) AS rank,
+    @courses_id := course_id AS course_id 
         FROM (SELECT course_id, student_id, AVG(`mark`) AS avg_mark 
               FROM Marks 
               GROUP BY course_id, student_id 
               ORDER BY course_id, avg_mark DESC) AS temp_table
-   	    INNER JOIN (SELECT @courses_id := NULL) var_setter
-		HAVING rank = 1) AS temp_result 
-	LEFT JOIN Students ON temp_result.student_id = Students.id
-    LEFT JOIN Courses ON temp_result.course_id = Courses.id
+        INNER JOIN (SELECT @courses_id := NULL) var_setter
+    HAVING rank = 1) AS temp_result 
+  LEFT JOIN Students ON temp_result.student_id = Students.id
+  LEFT JOIN Courses ON temp_result.course_id = Courses.
 
 *Afișarea listei de profesori care predau unui anumit student
-SELECT DISTINCT Students.name AS student_name, Teachers.name AS teacher 
-	FROM Marks
-    LEFT JOIN Students ON Marks.student_id = Students.id
-    LEFT JOIN Courses ON Marks.course_id = Courses.id
-    LEFT JOIN Teachers ON Courses.teacher_id = Teachers.id
-    WHERE Marks.student_id = 7
+SELECT Students.name AS student_name, Teachers.name AS teacher 
+FROM Students_courses
+LEFT JOIN Students ON Students_courses.student_id = Students.id
+LEFT JOIN Courses ON Students_courses.course_id = Courses.id
+LEFT JOIN Teachers ON Courses.teacher_id = Teachers.id
+WHERE Students_courses.student_id = 1
