@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2018 at 12:14 AM
+-- Generation Time: Apr 20, 2018 at 04:48 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.2.4-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vbruma_university`
+-- Database: `university`
 --
 
 -- --------------------------------------------------------
@@ -31,17 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `courses` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `teacher` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `teacher_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `name`, `teacher`) VALUES
-(3, 'Algorithms', 'Teacher 3'),
-(1, 'Mathematics', 'Teacher 1'),
-(2, 'Mathematics', 'Teacher 2');
+INSERT INTO `courses` (`id`, `name`, `teacher_id`) VALUES
+(1, 'Mathematics', 1),
+(2, 'Mathematics', 2),
+(3, 'Algorithms', 3);
 
 -- --------------------------------------------------------
 
@@ -78,58 +78,6 @@ CREATE TABLE `grades` (
   `type` enum('course','exam') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'course'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `groups`
---
-
-CREATE TABLE `groups` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `faculties_id` int(10) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `groups`
---
-
-INSERT INTO `groups` (`id`, `name`, `faculties_id`) VALUES
-(1, 'TI-071', 1),
-(2, 'TI-072', 1),
-(3, 'TI-073', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `students`
---
-
-CREATE TABLE `students` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8_unicode_ci,
-  `groups_id` int(10) UNSIGNED NOT NULL,
-  `faculties_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `name`, `bio`, `groups_id`, `faculties_id`) VALUES
-(1, 'Student 1', 'Some bio 11', 1, 1),
-(2, 'Student 2', 'Some bio 2', 1, 1),
-(3, 'Student 3', 'Some bio 3', 1, 1),
-(4, 'Student 4', 'Some bio 4', 2, 1),
-(5, 'Student 5', 'Some bio 5', 2, 1),
-(6, 'Student 6', 'Some bio 6', 2, 1),
-(7, 'Student 7', 'Some bio 7', 3, 1),
-(8, 'Student 8', 'Some bio 8', 3, 1),
-(9, 'Student 9', 'Some bio 9', 3, 1),
-(10, 'Student 10', 'Some bio 10', 3, 1);
-
 --
 -- Dumping data for table `grades`
 --
@@ -154,6 +102,101 @@ INSERT INTO `grades` (`id`, `students_id`, `courses_id`, `value`, `type`) VALUES
 (17, 6, 3, 10, 'course'),
 (18, 6, 3, 6, 'course');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `faculties_id` int(10) UNSIGNED DEFAULT NULL,
+  `department` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `current_year` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `faculties_id`, `department`, `current_year`) VALUES
+(1, 'TI-071', 1, 'IT', 1),
+(2, 'TI-072', 1, 'IT', 1),
+(3, 'TI-073', 1, 'IT', 1),
+(4, 'AI-071', 1, 'AI', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bio` text COLLATE utf8_unicode_ci,
+  `groups_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `name`, `bio`, `groups_id`) VALUES
+(1, 'Student 1', 'Some bio 11', 1),
+(2, 'Student 2', 'Some bio 2', 1),
+(3, 'Student 3', 'Some bio 3', 1),
+(4, 'Student 4', 'Some bio 4', 2),
+(5, 'Student 5', 'Some bio 5', 2),
+(6, 'Student 6', 'Some bio 6', 2),
+(7, 'Student 7', 'Some bio 7', 3),
+(8, 'Student 8', 'Some bio 8', 3),
+(9, 'Student 9', 'Some bio 9', 3),
+(10, 'Student 10', 'Some bio 10', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `study_program`
+--
+
+CREATE TABLE `study_program` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `department` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `year` tinyint(4) NOT NULL,
+  `course_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `study_program`
+--
+
+INSERT INTO `study_program` (`id`, `department`, `year`, `course_id`) VALUES
+(1, 'IT', 1, 1),
+(2, 'IT', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teachers`
+--
+
+CREATE TABLE `teachers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `joined` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `teachers`
+--
+
+INSERT INTO `teachers` (`id`, `name`, `joined`) VALUES
+(1, 'Teacher1', '2000-04-01'),
+(2, 'Teacher2', '2001-04-01'),
+(3, 'Teacher3', '2002-04-01');
+
 --
 -- Indexes for dumped tables
 --
@@ -163,7 +206,7 @@ INSERT INTO `grades` (`id`, `students_id`, `courses_id`, `value`, `type`) VALUES
 --
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_course` (`name`,`teacher`);
+  ADD KEY `teacher_id` (`teacher_id`);
 
 --
 -- Indexes for table `faculties`
@@ -193,8 +236,21 @@ ALTER TABLE `groups`
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `fk_student_groups_id` (`groups_id`),
-  ADD KEY `fk_student_faculties_id` (`faculties_id`);
+  ADD KEY `fk_student_groups_id` (`groups_id`);
+
+--
+-- Indexes for table `study_program`
+--
+ALTER TABLE `study_program`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `course_id` (`course_id`);
+
+--
+-- Indexes for table `teachers`
+--
+ALTER TABLE `teachers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -222,7 +278,7 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `students`
@@ -231,8 +287,26 @@ ALTER TABLE `students`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `study_program`
+--
+ALTER TABLE `study_program`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `teachers`
+--
+ALTER TABLE `teachers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `courses`
+--
+ALTER TABLE `courses`
+  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`);
 
 --
 -- Constraints for table `grades`
@@ -251,8 +325,13 @@ ALTER TABLE `groups`
 -- Constraints for table `students`
 --
 ALTER TABLE `students`
-  ADD CONSTRAINT `fk_student_faculties_id` FOREIGN KEY (`faculties_id`) REFERENCES `faculties` (`id`),
   ADD CONSTRAINT `fk_student_groups_id` FOREIGN KEY (`groups_id`) REFERENCES `groups` (`id`);
+
+--
+-- Constraints for table `study_program`
+--
+ALTER TABLE `study_program`
+  ADD CONSTRAINT `study_program_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

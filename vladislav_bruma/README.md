@@ -47,18 +47,22 @@ SELECT courses.name AS course_name, students.name AS student_name, avg_grade AS 
 
 * Afișarea listei de profesori care predau unui anumit student
 ```sql
-SELECT DISTINCT students.name AS student_name, courses.teacher AS teacher 
-	FROM grades
-    LEFT JOIN students ON grades.students_id = students.id
-    LEFT JOIN courses ON grades.courses_id = courses.id
-    WHERE grades.students_id = 4
+SELECT DISTINCT students.name AS student_name, teachers.name AS teacher_name 
+	FROM `students` 
+	LEFT JOIN groups ON students.groups_id = groups_id
+    INNER JOIN study_program ON groups.department = study_program.department AND groups.current_year = study_program.year
+    LEFT JOIN courses ON study_program.course_id = courses.id
+    LEFT JOIN teachers ON courses.teacher_id = teachers.id
+    WHERE students.id = 4
 ```
 
 ```sql
-SELECT DISTINCT students.name AS student_name, GROUP_CONCAT(DISTINCT courses.teacher SEPARATOR ',') AS teachers
-	FROM grades
-    LEFT JOIN students ON grades.students_id = students.id
-    LEFT JOIN courses ON grades.courses_id = courses.id
+SELECT DISTINCT students.name AS student_name, GROUP_CONCAT(DISTINCT teachers.name SEPARATOR ',') AS teachers
+	FROM `students` 
+	LEFT JOIN groups ON students.groups_id = groups_id
+    INNER JOIN study_program ON groups.department = study_program.department AND groups.current_year = study_program.year
+    LEFT JOIN courses ON study_program.course_id = courses.id
+    LEFT JOIN teachers ON courses.teacher_id = teachers.id
     GROUP BY student_name
 ```
 
